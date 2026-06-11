@@ -48,7 +48,7 @@ def add_contacts():
                 break
         while True:
             phone = input("电话：")
-            if phone.isdigit() | len(phone) == 11:
+            if phone.isdigit() and len(phone) == 11:
                 break
             else:
                 print("电话格式错误，应为11位纯数字")
@@ -58,8 +58,6 @@ def add_contacts():
         if input("请输入：1.结束 2.继续 ") == "1":
             save_contacts()
             break
-        else:
-            continue
 
 
 

@@ -1,76 +1,39 @@
-import os
-import json
-# day1:
-# 输入输出
-print("你好")
-name = input("姓名：")
-print(f'姓名：{name}')
-
-# day2:
-# 判断循环
-if name == "wang":
-    print("wang")
-# range(0,2):0,1 从0开始到5之前停下
-for i in range(0,2):
-    print(i)
-# 随机数函数:
-import random #随机库
-# 随机整数函数
-random.randint(0,100) #从0到100选个随机整数
+# \d	digit	一个数字 0-9
+# \d+	digit +	一个或多个数字
+# \w	word character	字母、数字、下划线
+# \s	space	空白符（空格/换行/制表符）
+# .		任意一个字符
+# \.	真正的点号（反斜杠转义）
+# + 	前面的东西出现 1 次或多次
+# *	    前面的东西出现 0 次或多次
 
 
-# day3:
-# 列表
-contact = ["苹果","香蕉","橘子","苹果"] #初始化
-for m in contact:
-    print(m)
-
-# 列表的操作函数：
-# 常用的增删查改
-contact.append("狗屎") #在后面添加
-contact.pop(0) #按序号删除
-contact.remove("苹果") #按内容删除（遇到的第一个）
-print("香蕉" in contact) #返回True和False
-contact[1] = "牛皮" # 修改此序号对应数值
-
-contact_len = len(contact) #获取长度函数
-# 后两个输出一样，但是enumerate更简洁
-for i in range(0,contact_len):
-    print(f'{i+1}.{contact[i]}')
-
-for i,m in enumerate(contact,1):
-    print(f'{i}.{m}')
-
-# 列表：只有值（只按序号来取），同一属性的多个东西：水果列表：["苹果","香蕉","橘子","苹果"]
-# 字典：有键名（所谓的标签），一个人东西的多个属性：人物信息：{"性别":"男","姓名":"王八蛋","性格":"温柔"}
-# 字典列表：列表内的元素是字典，多个人的多个的同一属性：人物信息表：[{"性别":"男","姓名":"王八蛋","性格":"温柔"},{"性别":"女","姓名":"丫蛋","性格":"温柔"}]
-
-# day4:
-# 字典
-contacts = {"性别":"男","姓名":"王八蛋","性格":"温柔"}
+# 2024-01-01 10:30:45 192.168.1.1 GET /index.html
+# 2024-01-01 10:31:12 10.0.0.5 POST /login
+# 2024-01-01 10:32:01 192.168.1.1 GET /about
+# 2024-01-01 10:33:45 172.16.0.8 GET /contact
 
 
-print(list(contacts.keys()))                # 所有键：["姓名", "年龄"]
-print(list(contacts.values()))              # 所有值：["张三", 25]
-print(list(contacts.items()))               # 键值对：[("姓名","张三"), ("年龄",25)]
+# 时间: 2024-01-01 10:30:45, IP: 192.168.1.1
+# 时间: 2024-01-01 10:31:12, IP: 10.0.0.5
+# 时间: 2024-01-01 10:32:01, IP: 192.168.1.1
+# 时间: 2024-01-01 10:33:45, IP: 172.16.0.8
+#
+# 所有IP: ['192.168.1.1', '10.0.0.5', '192.168.1.1', '172.16.0.8']
+import re
 
-# 常用操作函数增删查改：
-contacts["喜好"] = "零食"
-contacts.pop("性别") #按键名
-print("姓名" in contacts)
-contacts["姓名"] = "狗"
+log = """2024-01-01 10:30:45 192.168.1.1 GET /index.html
+2024-01-01 10:31:12 10.0.0.5 POST /login
+2024-01-01 10:32:01 192.168.1.1 GET /about
+2024-01-01 10:33:45 172.16.0.8 GET /contact"""
 
-# day5:
-# 函数
+split_log = log.split("\n")
 
-# day6:
-# json数据存储
+for line in log.split("\n"):
+    spilt_line = line.split(" ")
+    print(f'时间: {spilt_line[0]} {spilt_line[1]}, IP: {spilt_line[2]}')
+ip = re.findall(r"\d+\.\d+\.\d+\.\d+", log)
+print(f'所有IP: {ip}')
 
-if os.path.exists("contacts.json"): # 路径是否存在contacts.json文件
-    with open("contacts.json","r",encoding="utf-8") as f: # 打开 contacts.json，只读模式，UTF-8 编码，给它起个名叫 f，用完自动关。
-        contacts = json.load(f) # 将文件内容转换成python能懂的字典或列表
-
-with open ("contacts.json","w",encoding="utf-8") as f: # 打开 contacts.json，只写模式，UTF-8 编码，给它起个名叫 f，用完自动关。
-
-    # 将contacts转换成ensure_ascii=False,indent=4的json格式文件存到f   ensure_ascii=False → 中文正常显示   indent=4 → 缩进 4 格
-    json.dump(contacts,f,ensure_ascii=False,indent=4)
+new_log = log.replace("GET", "FETCH")
+print(new_log)
